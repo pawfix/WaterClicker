@@ -1,25 +1,64 @@
 import { watch } from "fs";
 
-const glob = new Bun.Glob("src/**/*.ts");
+async function build(file?: string) {
+    const start = performance.now();
 
-async function build() {
-    const entrypoints: string[] = [];
+    const entrypoints = file ? [file] : [];
 
-    for await (const file of glob.scan(".")) {
-        entrypoints.push(file);
+    if (!file) {
+        const glob = new Bun.Glob("src/**/*.ts");
+        for await (const f of glob.scan(".")) {
+            entrypoints.push(f);
+        }
     }
 
-    await Bun.build({
+    const result = await Bun.build({
         entrypoints,
         outdir: "./src",
         root: "./src",
         target: "browser",
     });
+
+    const time = Math.round(performance.now() - start);
+
+    if (!result.success) {
+        for (const log of result.logs) {
+            console.error(log);
+        }
+        console.log(`[Bun Build] Build failed in ${time}ms\n`);
+        return;
+    }
+
+    const outputs = result.outputs
+        .map(o => o.path.split("/").pop())
+        .join(", ");
+
+    console.log(`[Bun Build] ${file ? file : "full"} → ${outputs} (${time}ms)\n`);
 }
 
-await build();
-
-watch("src", { recursive: true }, async () => {
-    console.log("Rebuilding...");
+try {
     await build();
+} catch (err) {
+    console.error("Initial build failed:");
+    console.error(err);
+}
+
+let timeout: Timer | null = null;
+let lastFile: string | null = null;
+
+watch("src", { recursive: true }, (event, filename) => {
+    if (!filename || !filename.endsWith(".ts")) return;
+
+    lastFile = "src/" + filename;
+
+    if (timeout) clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+        try {
+            await build(lastFile || undefined);
+        } catch (err) {
+            console.error("Build failed:");
+            console.error(err);
+        }
+    }, 100);
 });

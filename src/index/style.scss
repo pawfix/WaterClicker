@@ -14,6 +14,32 @@ body {
   display: flex;
   overflow: hidden;
 }
+header {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100vw;
+  background-color: rgba(200, 200, 200, 0.5);
+  height: 25px;
+  -webkit-app-region: drag;
+  z-index: 10;
+  transition: all 0.25s ease-in-out;
+  div.headerOpen {
+    background-color: rgba(200, 200, 200, 0.75);
+    text-align: center;
+    transition: all 0.25s ease-in-out;
+    width: 20vw;
+    height: 15px;
+    margin-left: 40vw;
+    margin-right: 40vw;
+    position: relative;
+    top: 25px;
+    &:hover {
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+  }
+}
 
 .container {
   height: 100vh;
@@ -36,17 +62,21 @@ body {
   justify-content: center;
   align-items: center;
   svg.icon {
-    width: 75%;
+    height: 85%;
     aspect-ratio: 1/1;
-    transition: scale 0.1s ease-in-out;
+
     g.clickerRects {
       pointer-events: visiblePainted;
+      transition: transform 0.1s ease-in-out;
+      transform-origin: center;
+      transform-box: fill-box;
+
+
       &:hover {
         cursor: pointer;
-        scale: 1.05;
+        transform: scale(1.05);
       }
     }
-
   }
 }
 .rightSideBar {
@@ -64,8 +94,4 @@ body {
 .leftSideBar {
   width: 10%;
   background-color: red;
-  -webkit-app-region: drag;
-  &:hover {
-    cursor: move;
-  }
 }

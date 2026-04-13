@@ -5,3 +5,11 @@ export function gamePaused():boolean {
     if (pauseState) pauseState = false
     return pauseState;
 }
+
+interface userSettings {
+    bgMusic: boolean
+}
+
+export let userSettings: userSettings = {
+    bgMusic: true,
+}
