@@ -4,10 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "electronmon ."
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "electronmon": "^2.0.4"
   },
   "peerDependencies": {
     "typescript": "^5"

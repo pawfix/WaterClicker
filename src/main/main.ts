@@ -13,10 +13,10 @@ const createWindow = () => {
     frame: false,
   })
 
-  mainWindow.loadFile('./src/index.html');
+  // noinspection JSIgnoredPromiseFromCall
+  mainWindow.loadFile('./src/index/index.html');
 }
 
 app.whenReady().then(() => {
   createWindow()
 })
-
