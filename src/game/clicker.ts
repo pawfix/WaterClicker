@@ -1,3 +1,5 @@
+import {multi, power} from "../index/rightPanelShop.ts";
+
 export function doClickerClick():number {
-    return 1
+    return power.ownedAmount * multi.ownedAmount
 }

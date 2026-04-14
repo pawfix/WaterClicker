@@ -1,4 +1,4 @@
-let pauseState
+export let pauseState = false;
 
 export function gamePaused():boolean {
     if (!pauseState) pauseState = true

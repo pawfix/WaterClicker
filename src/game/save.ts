@@ -1,4 +1,4 @@
-import {userBalance} from "./data.ts";
+import {userBalance, userStats} from "./data.ts";
 import {userSettings} from "../settings/settings.ts";
 
 interface saveJsonAttributes {
@@ -6,6 +6,11 @@ interface saveJsonAttributes {
         pearls: number;
         gems: number;
     },
+    stats: {
+        clicks: number;
+        pearls: number;
+        gems: number;
+    }
     settings: {
         bgMusic: boolean,
     }
@@ -17,6 +22,11 @@ export function saveData() {
         balance: {
             pearls: userBalance.pearls,
             gems: userBalance.gems
+        },
+        stats: {
+            clicks: userStats.clicks,
+            pearls: userStats.pearls,
+            gems: userStats.gems
         },
         settings: {
             bgMusic: userSettings.bgMusic,

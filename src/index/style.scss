@@ -1,7 +1,54 @@
+@font-face {
+  font-family: 'ArcadeClassic';
+  src: url('../assets/ARCADECLASSIC.TTF');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
+  font-family: 'ArcadeClassic', serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.pop {
+  animation: popAnim 0.18s ease;
+}
+
+.failToBuy {
+  margin: 0;
+}
+
+@keyframes failToBuyBlink {
+  0% {
+    background-color: red;
+    transform: rotate(-45deg);
+  }
+  25% {
+    background-color: transparent;
+    transform: rotate(0);
+  }
+  50% {
+    background-color: red;
+    transform: rotate(45deg);
+  }
+  75% {
+    background-color: transparent;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes popAnim {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes waterFlow {
@@ -56,13 +103,14 @@ header {
 
   background-size: 80px 80px;
   animation: waterFlow 6s linear infinite;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(20px);
   display: flex;
 
   justify-content: center;
   align-items: center;
   svg.icon {
     height: 85%;
+    max-width: 90%;
     aspect-ratio: 1/1;
 
     g.clickerRects {
@@ -83,15 +131,50 @@ header {
   width: 0;
   background-color: blue;
   div.rightPanelMove {
-    height: 100%;
+    height: 20vh;
     width: 50px;
     float: left;
+    margin: 40vh 0;
     position: relative;
     left: -50px;
-    background-color: yellow;
+    transition: transform 0.1s ease-in-out, border-radius 0.25s ease-in-out;
+    border-radius: 15px 0 0 15px;
+    background-color: rgba(200, 200, 200, 0.75);
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+      border-radius: 17px 0 0 17px;
+    }
+  }
+  div.rightBarContainer {
+    text-align: center;
+    font-size: 2rem;
+    padding: 15px;
   }
 }
 .leftSideBar {
   width: 10%;
   background-color: red;
+}
+
+div.rightPanelShop {
+  padding: 25px 5px 5px;
+  margin-top: 25px;
+  border-top: black solid 2px;
+  div.shopItem {
+    cursor: pointer;
+    border: darkblue double 5px;
+    display: flex;
+    flex-direction: column;
+    div.shopItemPrice {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      svg {
+        scale: 1.25;
+      margin-top: 5px;
+        margin-left: 10px;
+      }
+    }
+  }
 }

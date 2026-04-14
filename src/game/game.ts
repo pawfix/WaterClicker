@@ -1,15 +1,22 @@
-import {gamePaused} from "../settings/settings.ts";
+import {pauseState} from "../settings/settings.ts";
 import {updateRightPanelDisplay} from "../index/rightDisplay.ts";
 import {initIndex} from "../index";
-
-function init() {
-    initIndex()
+import { addShopForItems } from "../index/rightPanelShop.ts";
 
 
-    while (!gamePaused) {
+
+function gameLoop() {
+    if (!pauseState) {
         updateRightPanelDisplay()
     }
 
+    requestAnimationFrame(gameLoop)
+}
+
+function init() {
+    initIndex()
+    gameLoop()
+    addShopForItems()
 }
 
 document.addEventListener("DOMContentLoaded", init);
