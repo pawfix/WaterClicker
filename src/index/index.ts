@@ -1,5 +1,4 @@
 import {userBalance} from "../game/data.ts";
-import {doClickerClick} from "../game/clicker.ts";
 
 let rightPanelState:boolean = true;
 let headerState:boolean = true;
@@ -14,18 +13,21 @@ function setEventListeners():void {
     rightPanelMove!.addEventListener('click', () => {
         if (rightPanelState) {
             rightPanelState = false;
-            mainContainer!.style.width = "65%"
-            rightPanel!.style.width = "25%"
+            mainContainer!.style.width = "65vw"
+            rightPanel!.style.width = "25vw"
+            rightPanelMove!.style.margin = "40vh 25vw 40vh 0"
         } else if (!rightPanelState) {
             rightPanelState = true;
-            mainContainer!.style.width = "90%"
-            rightPanel!.style.width = "0"
+            mainContainer!.style.width = "90vw"
+            rightPanel!.style.width = "0vw"
+            rightPanelMove!.style.margin = "40vh 0px 40vh 0"
         }
     })
 
     const mainClicker:HTMLElement | null = document.querySelector('.icon');
 
     mainClicker!.addEventListener('click', () => {
+
         userBalance.pearls += doClickerClick();
         console.log(userBalance.pearls);
     })
