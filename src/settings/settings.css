@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 10vh;
+}
+header div {
+  background-image: url("../assets/log.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
+}
+header div {
+  height: 100%;
+  width: 100px;
+}
+
+main {
+  display: flex;
+  width: 300vw;
+  flex-direction: row;
+  transition: transform 0.35s ease;
+}
+main section {
+  width: 90vw;
+  margin: 5vh;
+}
+
+/*# sourceMappingURL=settings.css.map */
