@@ -4,44 +4,50 @@ import {createPearlIcon} from "./rightDisplay.ts";
 export interface shopEntry {
     name: string;
     price: number;
+    basePrice: number;
     maxAmount: number;
     ownedAmount: number;
 }
 
 export const power: shopEntry = {
     name: "Power",
+    basePrice: 25,
     price: 25,
     maxAmount: 50,
     ownedAmount: 1,
 }
 export const multi: shopEntry = {
     name: "Multiplier",
+    basePrice: 125,
     price: 125,
     maxAmount: 25,
     ownedAmount: 1,
 }
 
 function buyItem(item: shopEntry):boolean {
-    console.log("buyItem", item);
     if (userBalance.pearls < item.price) {
         return false;
     } else if (item.ownedAmount >= item.maxAmount) {
         return false;
-    }
+    } else {
 
-    try {
-        userBalance.pearls -= item.price;
-        updateItemPrice(item)
-        return true;
-    }
-    catch (error) {
-        console.warn(error);
-        return false;
+
+        try {
+            userBalance.pearls -= item.price;
+            item.ownedAmount ++;
+
+            updateItemPrice(item)
+            console.log("buyItem", item.name);
+            return true;
+        } catch (error) {
+            console.warn(error);
+            return false;
+        }
     }
 }
 
 export function updateItemPrice(item: shopEntry):void {
-    item.price = item.price * (item.ownedAmount + 1);
+    item.price = item.basePrice * (item.ownedAmount);
 }
 
 export function setUserPrices():void {
@@ -78,6 +84,9 @@ function makeShopDisplayItem(item: shopEntry):HTMLElement {
     const icon:SVGSVGElement = createPearlIcon();
     const text:HTMLParagraphElement = document.createElement("p");
     text.innerHTML = String(item.price);
+    text.dataset.name = item.name;
+
+    text.className = "shopItemText";
 
     itemPrice.append(text, icon)
 
@@ -88,6 +97,7 @@ function makeShopDisplayItem(item: shopEntry):HTMLElement {
     itemAmount.innerText = item.ownedAmount + " / " + item.maxAmount;
     itemAmount.id = String(item.ownedAmount);
     itemAmount.className = "shopItemAmount";
+    itemAmount.dataset.name = item.name;
 
     itemSpace.addEventListener('click', (event: MouseEvent) => {
         const target = event.target as HTMLElement;
@@ -104,8 +114,43 @@ function makeShopDisplayItem(item: shopEntry):HTMLElement {
     return itemSpace;
 }
 
+export function updateShopItemDisplay(): void {
+    const shopItems = document.querySelectorAll<HTMLParagraphElement>('.shopItemText');
+    const shopAmount = document.querySelectorAll<HTMLParagraphElement>('.shopItemAmount');
+
+    shopItems.forEach((item) => {
+        const itemType = item.dataset.name?.toLowerCase();
+
+        switch (itemType) {
+            case "power":
+                item.textContent = String(power.price);
+                break;
+            case "multiplier":
+                item.textContent = String(multi.price);
+                break;
+            default:
+                console.log(`Item ${itemType} is not supported`);
+        }
+
+    })
+
+    shopAmount.forEach((item) => {
+        const itemType = item.dataset.name?.toLowerCase();
+
+        switch (itemType) {
+            case "power":
+                item.textContent = String(power.ownedAmount) + " / " + String(power.maxAmount);
+                break;
+            case "multiplier":
+                item.textContent = String(multi.ownedAmount) + " / " + String(multi.maxAmount);
+                break;
+            default:
+                console.log(`Item ${itemType} is not supported`);
+        }
+    })
+}
+
 export function addShopForItems(): void {
-    console.log("Making shop")
     generateShop(power);
     generateShop(multi);
 }

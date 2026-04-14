@@ -1,13 +1,14 @@
 import {pauseState} from "../settings/settings.ts";
 import {updateRightPanelDisplay} from "../index/rightDisplay.ts";
 import {initIndex} from "../index";
-import { addShopForItems } from "../index/rightPanelShop.ts";
+import {addShopForItems, updateShopItemDisplay} from "../index/rightPanelShop.ts";
 
 
 
 function gameLoop() {
     if (!pauseState) {
         updateRightPanelDisplay()
+        updateShopItemDisplay()
     }
 
     requestAnimationFrame(gameLoop)
