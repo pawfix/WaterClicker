@@ -1,5 +1,6 @@
 import {userBalance} from "../game/data.ts";
 import {createPearlIcon} from "./rightDisplay.ts";
+import {triggerPop} from "./rightDisplay";
 
 export interface shopEntry {
     name: string;
@@ -33,6 +34,9 @@ function buyItem(item: shopEntry):boolean {
 
 
         try {
+
+            const pearlsDisplay: HTMLParagraphElement = document.querySelector('#pearls');
+            triggerPop(pearlsDisplay);
             userBalance.pearls -= item.price;
             item.ownedAmount ++;
 

@@ -10,7 +10,9 @@ export function updateRightPanelDisplay() {
     setUserPrices();
 }
 
-function triggerPop(el: HTMLElement) {
+export function triggerPop(el: HTMLElement) {
+    console.log("PoP")
+
     el.classList.remove("pop");
     void el.offsetWidth;
     el.classList.add("pop");

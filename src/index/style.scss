@@ -17,7 +17,7 @@
 }
 
 .failToBuy {
-  margin: 0;
+  animation: failToBuy 0.18s ease;
 }
 
 @keyframes failToBuyBlink {
@@ -94,7 +94,7 @@ header {
 }
 
 .main {
-  width: 90%;
+  width: 90vw;
   background:
           linear-gradient(45deg, rgba(79,195,247,0.4) 25%, transparent 25%),
           linear-gradient(-45deg, rgba(79,195,247,0.4) 25%, transparent 25%),
@@ -116,7 +116,7 @@ header {
     g.clickerRects {
       pointer-events: visiblePainted;
       transition: transform 0.1s ease-in-out;
-      transform-origin: center;
+      transform-origin: 50% 50%;
       transform-box: fill-box;
 
 
@@ -134,10 +134,13 @@ header {
     height: 20vh;
     width: 50px;
     float: left;
-    margin: 40vh 0;
-    position: relative;
-    left: -50px;
-    transition: transform 0.1s ease-in-out, border-radius 0.25s ease-in-out;
+    position: absolute;
+    writing-mode: vertical-rl;
+    font-size: 2rem;
+    text-align: center;
+    right: 0;
+    margin: 40vh 0px 40vh 0;
+    transition: transform 0.1s ease-in-out, border-radius 0.25s ease-in-out, margin 0.1s ease-in-out;
     border-radius: 15px 0 0 15px;
     background-color: rgba(200, 200, 200, 0.75);
     &:hover {
@@ -149,32 +152,61 @@ header {
   div.rightBarContainer {
     text-align: center;
     font-size: 2rem;
-    padding: 15px;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div.rightPanelShop {
+      padding: 25px 0;
+      margin-top: 25px;
+      border-top: black solid 2px;
+      width: 100%;
+      div.shopItem {
+        width: 100%;
+        cursor: pointer;
+        border: darkblue double 5px;
+        display: flex;
+        flex-direction: column;
+        p {
+          font-size: x-large;
+        }
+        div.shopItemPrice {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          svg {
+            scale: 1.25;
+            margin-top: 5px;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+
   }
 }
 .leftSideBar {
-  width: 10%;
+  width: 10vw;
   background-color: red;
-}
-
-div.rightPanelShop {
-  padding: 25px 5px 5px;
-  margin-top: 25px;
-  border-top: black solid 2px;
-  div.shopItem {
-    cursor: pointer;
-    border: darkblue double 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2% 0;
+  div.option {
     display: flex;
     flex-direction: column;
-    div.shopItemPrice {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      svg {
-        scale: 1.25;
-      margin-top: 5px;
-        margin-left: 10px;
-      }
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s ease-in-out;
+    img {
+      width: 100%;
+    }
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
     }
   }
 }
+
