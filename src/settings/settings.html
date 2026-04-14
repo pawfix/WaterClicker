@@ -6,22 +6,30 @@
     <link rel="stylesheet" href="settings.css">
 </head>
 <body>
-    <header>
-        <div class="headBtn" id="settings"><h3>Settings</h3></div>
-        <div class="headBtn" id="saves"><h3>Saves</h3></div>
-        <div class="headBtn" id="credits"><h3>Credits</h3></div>
-    </header>
-    <main id="main">
-        <section class="settings">
-
-        </section>
-        <section class="saves">
-
-        </section>
-        <section class="credits">
-            <p>Created by </p>
-        </section>
-        <script src="setting.js"></script>
-    </main>
+<header class="settingsTopHeader">
+    <div class="headerButtons">
+        <img src="../assets/X.svg" alt="CloseWindow" class="closeWindow">
+        <img src="../assets/cube.svg" alt="MaximizeWindow" class="maximizeWindow">
+        <img src="../assets/minus.svg" alt="MinimizeWindow" class="minimizeWindow">
+    </div>
+    <div class="headerOpen"><p id="headerBtnPar">\/</p></div>
+</header>
+<div id="settingsHeader">
+    <div class="headBtn" id="settings"><h3>Settings</h3></div>
+    <div class="headBtn" id="saves"><h3>Saves</h3></div>
+    <div class="headBtn" id="credits"><h3>Credits</h3></div>
+</div>
+<main id="main">
+    <section class="settings">
+        <h1>Settings</h1>
+    </section>
+    <section class="saves">
+        <h1>Saves</h1>
+    </section>
+    <section class="credits">
+        <h1>Credits</h1>
+    </section>
+    <script src="settings.js" type="module"></script>
+</main>
 </body>
 </html>

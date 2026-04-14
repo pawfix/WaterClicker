@@ -1,4 +1,5 @@
 import {userBalance} from "../game/data.ts";
+import {doClickerClick} from "../game/clicker.ts";
 
 let rightPanelState:boolean = true;
 let headerState:boolean = true;
@@ -39,23 +40,43 @@ function setHeader():void {
     const header:HTMLDivElement | null = document.querySelector('.topHeader');
     const headerBtnPar:HTMLParagraphElement | null = document.querySelector('#headerBtnPar');
 
+    console.log("Added Header listener")
+
+
     headerBtn!.addEventListener('click', () => {
         console.log("clicked");
         if (headerState) {
             headerState = false;
-            headerBtn!.style.top = "25px";
             header!.style.top = "0px";
             headerBtnPar!.innerText = "/\\";
         } else {
             headerState = true;
-            headerBtn!.style.top = "25px";
             header!.style.top = "-25px";
             headerBtnPar!.innerText = "\\/";
         }
     })
 }
 
+function startHeaderButtons():void {
+    const closeBtn:HTMLElement | null = document.querySelector('.closeWindow');
+    const maximizeBtn:HTMLElement | null = document.querySelector('.maximizeWindow');
+    const minimizeBtn:HTMLElement | null = document.querySelector('.minimizeWindow');
+
+    closeBtn!.addEventListener('click', () => {
+        window.electronAPI.closeWindow();
+    })
+
+    maximizeBtn!.addEventListener('click', () => {
+        window.electronAPI.maximizeWindow();
+    })
+
+    minimizeBtn!.addEventListener('click', () => {
+        window.electronAPI.minimizeWindow();
+    })
+}
+
 export function initIndex():void {
+    startHeaderButtons()
     setEventListeners()
     setHeader()
 }

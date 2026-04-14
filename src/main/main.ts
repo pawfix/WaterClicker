@@ -5,8 +5,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+let mainWindow: BrowserWindow | null = null;
+
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1240,
     height: 720,
     title: "Water Clicker",
@@ -20,7 +22,7 @@ function createWindow() {
     frame: false,
   });
 
-  win.loadFile(path.join(__dirname, "../index/index.html"));
+  mainWindow.loadFile(path.join(__dirname, "../index/index.html"));
 }
 
 let settings: BrowserWindow | null = null;
@@ -39,7 +41,7 @@ function createSettingsWindow() {
     title: "Settings",
 
     webPreferences: {
-      preload: path.join(__dirname, "../src/preload.js"),
+      preload: path.join(__dirname, "../preload.js"),
       contextIsolation: true,
       nodeIntegration: false
     },
@@ -47,7 +49,8 @@ function createSettingsWindow() {
     frame: true,
   });
 
-  settings.loadFile("./src/settings/settings.html");
+  const settingsPath = path.join(app.getAppPath(), 'src', 'settings', 'settings.html');
+  settings.loadFile(settingsPath);
 
   settings.on("closed", () => {
     settings = null;
@@ -61,4 +64,22 @@ ipcMain.handle("open-settings", () => {
 
 app.whenReady().then(() => {
   createWindow();
+});
+
+ipcMain.handle("close", () => {
+  mainWindow?.close();
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
+
+
+ipcMain.handle('window-minimize', e => {
+  BrowserWindow.fromWebContents(e.sender).minimize();
+});
+
+ipcMain.handle('window-maximize', e => {
+  const win = BrowserWindow.fromWebContents(e.sender);
+  win.isMaximized() ? win.unmaximize() : win.maximize();
 });

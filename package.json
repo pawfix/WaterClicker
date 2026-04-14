@@ -1,6 +1,7 @@
 {
   "name": "waterclicker",
-  "main": "src/main/main.ts",
+  "version": "1.0.0",
+  "main": "src/main/main.js",
   "type": "module",
   "private": true,
   "scripts": {
@@ -9,14 +10,34 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "electronmon": "^2.0.4"
+    "electronmon": "^2.0.4",
+    "electron": "^41.2.0",
+    "electron-builder": "^26.8.1"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "electron": "^41.2.0",
-    "electron-builder": "^26.8.1",
     "sass": "^1.99.0"
+  },
+  "build": {
+    "appId": "com.waterclicker.pawfix",
+    "npmRebuild": false,
+    "productName": "WaterClicker",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": "zip"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }

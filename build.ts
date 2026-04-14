@@ -8,6 +8,7 @@ async function build(file?: string) {
     if (!file) {
         const glob = new Bun.Glob("src/**/*.ts");
         for await (const f of glob.scan(".")) {
+            if (f.includes("main.ts")) continue; // build main separately
             entrypoints.push(f);
         }
     }
@@ -18,6 +19,22 @@ async function build(file?: string) {
         root: "./src",
         target: "browser",
     });
+
+    // Build main.ts with node target
+    if (!file || file.includes("main.ts")) {
+        const mainResult = await Bun.build({
+            entrypoints: ["src/main/main.ts"],
+            outdir: "./src",
+            root: "./src",
+            target: "node",
+            external: ["electron"]
+        });
+        if (!mainResult.success) {
+            for (const log of mainResult.logs) {
+                console.error(log);
+            }
+        }
+    }
 
     const time = Math.round(performance.now() - start);
 

@@ -80,10 +80,26 @@ header {
     margin-left: 40vw;
     margin-right: 40vw;
     position: relative;
-    top: 25px;
+    top: 0;
     &:hover {
       cursor: pointer;
       -webkit-app-region: no-drag;
+    }
+  }
+  div.headerButtons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+    margin-right: 5px;
+    img {
+      height: 21px;
+      margin: 2px;
+      -webkit-app-region: no-drag;
+      &:hover {
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+        transform: scale(1.1);
+      }
     }
   }
 }

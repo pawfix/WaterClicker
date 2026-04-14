@@ -1,40 +1,74 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "ArcadeClassic";
+  src: url("../assets/ARCADECLASSIC.TTF");
+  font-weight: normal;
+  font-style: normal;
+}
+@keyframes beachSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 body {
-  text-align: center;
-  overflow-x: hidden;
+  font-family: "ArcadeClassic", serif;
+  overflow: hidden;
+  background: linear-gradient(45deg, #0b1f2a, #123a4a, #1f5f6b, #2e8b8b, #3fa7a3);
+  background-size: 400% 400%;
+  animation: beachSlide 60s ease infinite;
 }
 
-header {
+.active {
+  filter: brightness(0.3);
+}
+
+div#settingsHeader {
+  width: 100vw;
+  height: 100px;
   display: flex;
-  align-items: center;
   justify-content: space-evenly;
-  height: 10vh;
+  align-items: center;
+  flex-direction: row;
 }
-header div {
-  background-image: url("../assets/log.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: top;
-}
-header div {
+div#settingsHeader div {
+  color: wheat;
+  display: flex;
+  flex-direction: column;
+  font-size: xx-large;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
   height: 100%;
-  width: 100px;
+  width: 100%;
+  background: url("../assets/log.svg") no-repeat center center;
+  background-size: 100% 100%;
+}
+div#settingsHeader div:hover h3 {
+  transform: scale(1.25);
 }
 
-main {
-  display: flex;
+main#main {
   width: 300vw;
-  flex-direction: row;
-  transition: transform 0.35s ease;
+  display: flex;
+  transition: transform 0.3s ease;
 }
-main section {
-  width: 90vw;
-  margin: 5vh;
+main#main section {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 /*# sourceMappingURL=settings.css.map */
