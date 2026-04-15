@@ -3,7 +3,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("electronAPI", {
     openSettings: () => ipcRenderer.invoke("open-settings"),
     maximizeWindow: () => ipcRenderer.invoke("window-maximize"),
-    minimizeWindow: () => ipcRenderer.invoke("minimize-window"),
+    minimizeWindow: () => ipcRenderer.invoke("window-minimize"),
     closeWindow: () => ipcRenderer.invoke("close"),
 
     saveSettings: (settingsData) => ipcRenderer.send("settings-save", settingsData),

@@ -14,7 +14,7 @@ export function addSettingsFormListeners(): void {
             event.preventDefault();
             event.stopPropagation();
             console.log("submited" + musicButtonChoice?.checked);
-            applyMusicBgSettings(musicButtonChoice?.checked)
+            applyMusicBgSettings(musicButtonChoice?.checked || true)
             console.log(userSettings)
         })
     }
