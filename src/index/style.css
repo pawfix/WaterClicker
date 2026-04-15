@@ -1,0 +1,221 @@
+@font-face {
+  font-family: "ArcadeClassic";
+  src: url("../assets/ARCADECLASSIC.TTF");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  font-family: "ArcadeClassic", serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.pop {
+  animation: popAnim 0.18s ease;
+}
+
+.failToBuy {
+  animation: failToBuy 0.18s ease;
+}
+
+@keyframes failToBuyBlink {
+  0% {
+    background-color: red;
+    transform: rotate(-45deg);
+  }
+  25% {
+    background-color: transparent;
+    transform: rotate(0);
+  }
+  50% {
+    background-color: red;
+    transform: rotate(45deg);
+  }
+  75% {
+    background-color: transparent;
+    transform: rotate(0deg);
+  }
+}
+@keyframes popAnim {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes waterFlow {
+  to {
+    background-position: 80px 80px, -80px 80px, 80px -80px, -80px -80px;
+  }
+}
+body {
+  display: flex;
+  overflow: hidden;
+}
+
+header {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100vw;
+  background-color: rgba(200, 200, 200, 0.5);
+  height: 25px;
+  -webkit-app-region: drag;
+  z-index: 10;
+  transition: all 0.25s ease-in-out;
+}
+header div.headerOpen {
+  background-color: rgba(200, 200, 200, 0.75);
+  text-align: center;
+  transition: all 0.25s ease-in-out;
+  width: 20vw;
+  height: 15px;
+  margin-left: 40vw;
+  margin-right: 40vw;
+  position: relative;
+  top: 0;
+}
+header div.headerOpen:hover {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+header div.headerButtons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: right;
+  margin-right: 5px;
+}
+header div.headerButtons img {
+  height: 21px;
+  margin: 2px;
+  -webkit-app-region: no-drag;
+}
+header div.headerButtons img:hover {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  transform: scale(1.1);
+}
+
+.container {
+  height: 100vh;
+  transition: width 0.1s ease-in-out;
+}
+
+.main {
+  width: 90vw;
+  background: linear-gradient(45deg, rgba(79, 195, 247, 0.4) 25%, transparent 25%), linear-gradient(-45deg, rgba(79, 195, 247, 0.4) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(2, 136, 209, 0.5) 75%), linear-gradient(-45deg, transparent 75%, rgba(2, 136, 209, 0.5) 75%);
+  background-color: rgb(94, 111, 213);
+  background-size: 80px 80px;
+  animation: waterFlow 6s linear infinite;
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main svg.icon {
+  height: 85%;
+  max-width: 90%;
+  aspect-ratio: 1/1;
+}
+.main svg.icon g.clickerRects {
+  pointer-events: visiblePainted;
+  transition: transform 0.1s ease-in-out;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+.main svg.icon g.clickerRects:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.rightSideBar {
+  width: 0;
+  background-color: blue;
+}
+.rightSideBar div.rightPanelMove {
+  height: 20vh;
+  width: 50px;
+  float: left;
+  position: absolute;
+  writing-mode: vertical-rl;
+  font-size: 2rem;
+  text-align: center;
+  right: 0;
+  margin: 40vh 0px 40vh 0;
+  transition: transform 0.1s ease-in-out, border-radius 0.25s ease-in-out, margin 0.1s ease-in-out;
+  border-radius: 15px 0 0 15px;
+  background-color: rgba(200, 200, 200, 0.75);
+}
+.rightSideBar div.rightPanelMove:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  border-radius: 17px 0 0 17px;
+}
+.rightSideBar div.rightBarContainer {
+  text-align: center;
+  font-size: 2rem;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.rightSideBar div.rightBarContainer div.rightPanelShop {
+  padding: 25px 0;
+  margin-top: 25px;
+  border-top: black solid 2px;
+  width: 100%;
+}
+.rightSideBar div.rightBarContainer div.rightPanelShop div.shopItem {
+  width: 100%;
+  cursor: pointer;
+  border: darkblue double 5px;
+  display: flex;
+  flex-direction: column;
+}
+.rightSideBar div.rightBarContainer div.rightPanelShop div.shopItem p {
+  font-size: x-large;
+}
+.rightSideBar div.rightBarContainer div.rightPanelShop div.shopItem div.shopItemPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.rightSideBar div.rightBarContainer div.rightPanelShop div.shopItem div.shopItemPrice svg {
+  scale: 1.25;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.leftSideBar {
+  width: 10vw;
+  background-image: url("../assets/beach.svg");
+  background-repeat: repeat-y;
+  background-size: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2% 0;
+}
+.leftSideBar div.option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.1s ease-in-out;
+}
+.leftSideBar div.option img {
+  width: 100%;
+}
+.leftSideBar div.option:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+/*# sourceMappingURL=style.css.map */

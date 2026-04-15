@@ -131,7 +131,7 @@ header {
           linear-gradient(-45deg, rgba(79,195,247,0.4) 25%, transparent 25%),
           linear-gradient(45deg, transparent 75%, rgba(2,136,209,0.5) 75%),
           linear-gradient(-45deg, transparent 75%, rgba(2,136,209,0.5) 75%);
-
+  background-color: rgb(94, 111, 213);
   background-size: 80px 80px;
   animation: waterFlow 6s linear infinite;
   backdrop-filter: blur(20px);
@@ -218,7 +218,9 @@ header {
 }
 .leftSideBar {
   width: 10vw;
-  background-color: red;
+  background-image: url("../assets/beach.svg");
+  background-repeat: repeat-y;
+  background-size: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
