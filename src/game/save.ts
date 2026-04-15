@@ -100,3 +100,10 @@ export function loadData(): void {
 }
 
 
+export function autoSave() : void {
+    setInterval(() => {
+        saveData();
+        console.log("autoSaved")
+    }, 300000)
+}
+

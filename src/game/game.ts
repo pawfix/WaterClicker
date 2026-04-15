@@ -3,7 +3,7 @@ import {updateRightPanelDisplay} from "../index/rightDisplay.ts";
 import {initIndex} from "../index";
 import {addShopForItems, updateShopItemDisplay} from "../index/rightPanelShop.ts";
 import {playMusic} from "./music.ts";
-import {loadData, saveData} from "./save.ts";
+import {autoSave, loadData, saveData} from "./save.ts";
 
 
 
@@ -29,6 +29,8 @@ function init() {
     addShopForItems()
     console.log("Starting music")
     playMusic()
+    console.log("Start auto saves")
+    autoSave()
 
     console.log("Starting save listener on electron side")
     window.electronAPI.onSettingsApply((data) => {
