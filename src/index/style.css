@@ -9,6 +9,40 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
+}
+
+.popup {
+  top: 2vh;
+  padding: 5px;
+  left: 0;
+  position: absolute;
+  background-color: green;
+  width: 20vw;
+  height: 100px;
+  outline: 5px double purple;
+  margin-left: 40vw;
+  margin-right: 40vw;
+}
+.popup h2 {
+  text-align: center;
+}
+
+.bubble {
+  position: absolute;
+  cursor: pointer;
+  pointer-events: none;
+  user-select: none;
+}
+.bubble:focus {
+  outline: none;
+  background-color: transparent;
+}
+.bubble::selection {
+  background-color: transparent;
+}
+.bubble {
+  animation: popAnim 0.5s ease;
 }
 
 .pop {
@@ -119,7 +153,6 @@ header div.headerButtons img:hover {
 }
 .main svg.icon {
   height: 85%;
-  max-width: 90%;
   aspect-ratio: 1/1;
 }
 .main svg.icon g.clickerRects {

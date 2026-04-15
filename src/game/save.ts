@@ -1,6 +1,7 @@
 import {userBalance, userStats} from "./data.ts";
 import {userSettings} from "../settings/settings.ts";
 import {multi, power, updateItemPrice, updateShopItemDisplay } from "../index/rightPanelShop.ts";
+import {createPopUp} from "./popup.ts";
 
 interface shopSave {
     power: {
@@ -58,6 +59,7 @@ export function saveData() {
     };
 
     localStorage.setItem("saveJsonAttributes", JSON.stringify(jsonAttributes));
+    createPopUp("Saved progress...", "Saved your progress to local storage. To load go to settings and saves", false)
 }
 
 

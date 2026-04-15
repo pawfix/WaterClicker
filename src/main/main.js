@@ -1,25 +1,25 @@
-"use strict";
+// src/main/main.ts
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-let mainWindow = null;
+var __filename2 = fileURLToPath(import.meta.url);
+var __dirname2 = path.dirname(__filename2);
+var mainWindow = null;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1240,
     height: 720,
     title: "Water Clicker",
     webPreferences: {
-      preload: path.join(__dirname, "../preload.js"),
+      preload: path.join(__dirname2, "../preload.js"),
       contextIsolation: true,
       nodeIntegration: false
     },
     frame: false
   });
-  mainWindow.loadFile(path.join(__dirname, "../index/index.html"));
+  mainWindow.loadFile(path.join(__dirname2, "../index/index.html"));
 }
-let settings = null;
+var settings = null;
 function createSettingsWindow() {
   if (settings) {
     settings.focus();
@@ -30,7 +30,7 @@ function createSettingsWindow() {
     height: 720,
     title: "Settings",
     webPreferences: {
-      preload: path.join(__dirname, "../preload.js"),
+      preload: path.join(__dirname2, "../preload.js"),
       contextIsolation: true,
       nodeIntegration: false
     },
@@ -53,7 +53,8 @@ ipcMain.handle("close", () => {
   mainWindow?.close();
 });
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin")
+    app.quit();
 });
 ipcMain.handle("window-minimize", (e) => {
   BrowserWindow.fromWebContents(e.sender).minimize();
@@ -68,7 +69,8 @@ ipcMain.on("settings-save", (_, settingsData) => {
   }
 });
 ipcMain.handle("settings-load", async () => {
-  if (!mainWindow) return null;
+  if (!mainWindow)
+    return null;
   return new Promise((resolve) => {
     mainWindow.webContents.once("settings-response", (_, data) => {
       resolve(data);

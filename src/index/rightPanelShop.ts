@@ -1,5 +1,6 @@
 import { triggerPop } from "./rightDisplay.ts";
 import {userBalance, userStats} from "../game/data.ts";
+import {createPopUp} from "../game/popup.ts";
 
 export interface shopEntry {
     name: string;
@@ -60,7 +61,10 @@ function syncUI(): void {
 }
 
 export function convertGemToPearls(): boolean {
-    if (userBalance.gems < 1) return false;
+    if (userBalance.gems < 1) {
+        createPopUp("Too poor", "YOu are too poor to exchange your gems to pearls", true)
+        return false
+    }
 
     userBalance.gems -= 1;
 
@@ -71,7 +75,11 @@ export function convertGemToPearls(): boolean {
 }
 
 export function convertPearlsToGem(): boolean {
-    if (userBalance.pearls < 100) return false;
+    if (userBalance.pearls < 100) {
+
+        createPopUp("Too poor", "YOu are too poor to exchange your gems to pearls", true)
+        return false
+    }
 
     userBalance.pearls -= 100;
     userBalance.gems += 1;
@@ -86,6 +94,8 @@ export function finishGameCheck(): boolean {
     userStats.gems -= 250;
 
     console.log("GAME COMPLETED");
+
+    createPopUp("Finished the game!!!", "Congrats for finishing our game. Feel free to leave, or continue playing", false)
 
     syncUI();
     return true;
@@ -121,11 +131,13 @@ function buyItem(item: shopEntry): boolean {
         default:
             if (userBalance.pearls < item.price) {
                 console.log("NOT ENOUGH PEARLS", userBalance.pearls, item.price);
+                createPopUp("Too poor", `You are too poor to buy ${item.name}. Play more or sell your gems to get more.`, true)
                 return false;
             }
 
             if (item.ownedAmount >= item.maxAmount) {
                 console.log("MAX REACHED");
+                createPopUp("Max item amount", `You have reached max amount of ${item.name}. You cant buy more.`, true)
                 return false;
             }
 
@@ -141,6 +153,7 @@ function buyItem(item: shopEntry): boolean {
             break;
     }
     if (success) {
+        createPopUp(`Bought ${item.name}`, `You bought ${item.name} for ${item.price}. You can buy ${item.maxAmount - item.ownedAmount} more.`, false)
         updateShopItemDisplay();
         syncUI();
     }

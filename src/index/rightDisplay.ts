@@ -25,6 +25,7 @@ export function makeBubble() {
     bubble.classList.add("bubble")
     bubble.src = "../assets/buble.svg";
     bubble.alt = "Bubble"
+    bubble.style.position = "absolute";
     bubble.style.height = "50px";
     bubble.style.top = String(Math.random() * 100) + "vh";
     bubble.style.left = String(Math.random() * 100) + "vw";
