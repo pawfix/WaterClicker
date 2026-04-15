@@ -1,0 +1,26 @@
+STEPS TO INSTALL
+!!! WONT WORK WITHOUT !!!
+
+REQUIRES BUN SH:
+    install at: https://bun.sh/
+
+
+
+1. build main.ts:
+    `bun build ./src/main/main.ts --target node --outfile ./src/main/main.js`
+
+2. Build rest of typescript:
+    `bun build.ts`
+
+3. Build SCSS ( css ):
+    index: `bun sass ./src/index/style.scss ./src/index/style.css`
+    settings: `bun sass ./src/settings/settings.scss ./src/settings/settings.css `
+
+App is build
+
+To start:
+    Live: `bun dev`
+    Static: `bun start`
+
+To build app to executable:
+    `bunx electron-builder'
