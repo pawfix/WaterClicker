@@ -1,6 +1,5 @@
-import {userBalance} from "../game/data.ts";
-import {createPearlIcon} from "./rightDisplay.ts";
-import {triggerPop} from "./rightDisplay";
+import { triggerPop } from "./rightDisplay.ts";
+import {userBalance, userStats} from "../game/data.ts";
 
 export interface shopEntry {
     name: string;
@@ -16,100 +15,193 @@ export const power: shopEntry = {
     price: 25,
     maxAmount: 50,
     ownedAmount: 1,
-}
+};
+
 export const multi: shopEntry = {
     name: "Multiplier",
     basePrice: 125,
     price: 125,
     maxAmount: 25,
     ownedAmount: 1,
+};
+
+export const gemExchange: shopEntry = {
+    name: "Gem Exchange",
+    basePrice: 0,
+    price: 0,
+    maxAmount: 999999,
+    ownedAmount: 0,
+};
+
+export const pearlExchange: shopEntry = {
+    name: "Pearl Exchange",
+    basePrice: 0,
+    price: 0,
+    maxAmount: 999999,
+    ownedAmount: 0,
+};
+
+export const finishGame: shopEntry = {
+    name: "FINISH GAME",
+    basePrice: 250,
+    price: 250,
+    maxAmount: 1,
+    ownedAmount: 0,
+};
+
+function syncUI(): void {
+    const gems = document.querySelector("#gems") as HTMLParagraphElement;
+    const pearls = document.querySelector("#pearls") as HTMLParagraphElement;
+
+    if (gems) gems.textContent = `${userStats.gems} gems`;
+    if (pearls) pearls.textContent = `${userStats.pearls} pearls`;
+
+    updateShopItemDisplay();
 }
 
-function buyItem(item: shopEntry):boolean {
-    if (userBalance.pearls < item.price) {
-        return false;
-    } else if (item.ownedAmount >= item.maxAmount) {
-        return false;
-    } else {
+export function convertGemToPearls(): boolean {
+    if (userBalance.gems < 1) return false;
 
+    userBalance.gems -= 1;
 
-        try {
+    userBalance.pearls += 10;
 
-            const pearlsDisplay: HTMLParagraphElement = document.querySelector('#pearls');
-            triggerPop(pearlsDisplay);
+    syncUI();
+    return true;
+}
+
+export function convertPearlsToGem(): boolean {
+    if (userBalance.pearls < 100) return false;
+
+    userBalance.pearls -= 100;
+    userBalance.gems += 1;
+
+    syncUI();
+    return true;
+}
+
+export function finishGameCheck(): boolean {
+    if (userStats.gems < 250) return false;
+
+    userStats.gems -= 250;
+
+    console.log("GAME COMPLETED");
+
+    syncUI();
+    return true;
+}
+
+function buyItem(item: shopEntry): boolean {
+    let success = false;
+
+    console.log("CLICK", {
+        pearls: userBalance.pearls,
+        price: item.price,
+        name: item.name
+    });
+
+    console.log(item.name)
+    switch (item.name) {
+        case "Gem Exchange":
+            success = convertGemToPearls();
+            console.log(item.name)
+            break;
+
+        case "Pearl Exchange":
+            success = convertPearlsToGem();
+            console.log(item.name)
+
+            break;
+
+        case "FINISH GAME":
+            console.log(item.name)
+            success = finishGameCheck();
+            break;
+
+        default:
+            if (userBalance.pearls < item.price) {
+                console.log("NOT ENOUGH PEARLS", userBalance.pearls, item.price);
+                return false;
+            }
+
+            if (item.ownedAmount >= item.maxAmount) {
+                console.log("MAX REACHED");
+                return false;
+            }
+
             userBalance.pearls -= item.price;
-            item.ownedAmount ++;
+            item.ownedAmount++;
 
-            updateItemPrice(item)
-            console.log("buyItem", item.name);
-            return true;
-        } catch (error) {
-            console.warn(error);
-            return false;
-        }
+            updateItemPrice(item);
+
+            const pearlsDisplay = document.querySelector("#pearls") as HTMLParagraphElement;
+            if (pearlsDisplay) triggerPop(pearlsDisplay);
+
+            success = true;
+            break;
     }
+    if (success) {
+        updateShopItemDisplay();
+        syncUI();
+    }
+
+    return success;
 }
 
-export function updateItemPrice(item: shopEntry):void {
-    item.price = item.basePrice * (item.ownedAmount);
+export function updateItemPrice(item: shopEntry): void {
+    if (item.ownedAmount <= 0) {
+        item.ownedAmount = 1;
+    }
+
+    item.price = item.basePrice * item.ownedAmount;
 }
 
-export function setUserPrices():void {
+export function setUserPrices(): void {
     updateItemPrice(power);
     updateItemPrice(multi);
 }
-
-
-// ====================
-// SHOP DISPLAYS
-// ====================
-
-function generateShop(item: shopEntry):void {
+function generateShop(item: shopEntry): void {
     const shopWrap = document.getElementById("rightPanelShop");
+    if (!shopWrap) return;
 
-    shopWrap?.append(makeShopDisplayItem(item))
+    // Remove this line: shopWrap.innerHTML = "";
+    shopWrap.append(makeShopDisplayItem(item));
 }
 
-function makeShopDisplayItem(item: shopEntry):HTMLElement {
-    const itemSpace: HTMLDivElement = document.createElement("div");
+function makeShopDisplayItem(item: shopEntry): HTMLElement {
+    const itemSpace = document.createElement("div");
 
     itemSpace.dataset.name = item.name;
     itemSpace.dataset.price = String(item.price);
     itemSpace.dataset.maxAmount = String(item.maxAmount);
     itemSpace.dataset.ownedAmount = String(item.ownedAmount);
+
     itemSpace.classList.add("shopItem");
 
-    const itemName: HTMLParagraphElement = document.createElement("p");
+    const itemName = document.createElement("p");
     itemName.innerText = item.name;
-    itemName.id = item.name;
     itemName.className = "shopItemName";
 
-    const itemPrice: HTMLDivElement = document.createElement("div");
-    const icon:SVGSVGElement = createPearlIcon();
-    const text:HTMLParagraphElement = document.createElement("p");
+    const itemPrice = document.createElement("div");
+    const text = document.createElement("p");
+
     text.innerHTML = String(item.price);
     text.dataset.name = item.name;
-
     text.className = "shopItemText";
 
-    itemPrice.append(text, icon)
-
-    itemPrice.id = String(item.price);
+    itemPrice.append(text);
     itemPrice.className = "shopItemPrice";
 
-    const itemAmount: HTMLParagraphElement = document.createElement("p");
-    itemAmount.innerText = item.ownedAmount + " / " + item.maxAmount;
-    itemAmount.id = String(item.ownedAmount);
-    itemAmount.className = "shopItemAmount";
+    const itemAmount = document.createElement("p");
+    itemAmount.innerText = `${item.ownedAmount} / ${item.maxAmount}`;
     itemAmount.dataset.name = item.name;
+    itemAmount.className = "shopItemAmount";
 
-    itemSpace.addEventListener('click', (event: MouseEvent) => {
+    itemSpace.addEventListener("click", (event: MouseEvent) => {
         const target = event.target as HTMLElement;
 
-        const clickedInside = itemSpace.contains(target);
-
-        if (clickedInside) {
-            buyItem(item);
+        if (itemSpace.contains(target)) {
+            console.log(buyItem(item))
         }
     });
 
@@ -119,42 +211,57 @@ function makeShopDisplayItem(item: shopEntry):HTMLElement {
 }
 
 export function updateShopItemDisplay(): void {
-    const shopItems = document.querySelectorAll<HTMLParagraphElement>('.shopItemText');
-    const shopAmount = document.querySelectorAll<HTMLParagraphElement>('.shopItemAmount');
+    const shopItems = document.querySelectorAll<HTMLParagraphElement>(".shopItemText");
+    const shopAmount = document.querySelectorAll<HTMLParagraphElement>(".shopItemAmount");
 
     shopItems.forEach((item) => {
-        const itemType = item.dataset.name?.toLowerCase();
+        const type = item.dataset.name?.toLowerCase();
 
-        switch (itemType) {
+        switch (type) {
             case "power":
                 item.textContent = String(power.price);
                 break;
             case "multiplier":
                 item.textContent = String(multi.price);
                 break;
-            default:
-                console.log(`Item ${itemType} is not supported`);
+            case "gem exchange":
+                item.textContent = "1 gem → 10 pearls";
+                break;
+            case "pearl exchange":
+                item.textContent = "100 pearls → 1 gem";
+                break;
+            case "finish game":
+                item.textContent = "250 gems";
+                break;
         }
-
-    })
+    });
 
     shopAmount.forEach((item) => {
-        const itemType = item.dataset.name?.toLowerCase();
+        const type = item.dataset.name?.toLowerCase();
 
-        switch (itemType) {
+        switch (type) {
             case "power":
-                item.textContent = String(power.ownedAmount) + " / " + String(power.maxAmount);
+                item.textContent = `${power.ownedAmount} / ${power.maxAmount}`;
                 break;
             case "multiplier":
-                item.textContent = String(multi.ownedAmount) + " / " + String(multi.maxAmount);
+                item.textContent = `${multi.ownedAmount} / ${multi.maxAmount}`;
                 break;
-            default:
-                console.log(`Item ${itemType} is not supported`);
+            case "gem exchange":
+            case "pearl exchange":
+            case "finish game":
+                item.textContent = "";
+                break;
         }
-    })
+    });
 }
 
 export function addShopForItems(): void {
+    const shopWrap = document.getElementById("rightPanelShop");
+    if (shopWrap) shopWrap.innerHTML = "";  // Clear once here
+
     generateShop(power);
     generateShop(multi);
+    generateShop(gemExchange);
+    generateShop(pearlExchange);
+    generateShop(finishGame);
 }
