@@ -1,8 +1,9 @@
-import {initSettings, pauseState} from "../settings/settings.ts";
+import {initSettingsBtn, pauseState, userSettings} from "../settings/settings.ts";
 import {updateRightPanelDisplay} from "../index/rightDisplay.ts";
 import {initIndex} from "../index";
 import {addShopForItems, updateShopItemDisplay} from "../index/rightPanelShop.ts";
 import {playMusic} from "./music.ts";
+import {loadData, saveData} from "./save.ts";
 
 
 
@@ -20,14 +21,26 @@ function init() {
     console.log("Starting game");
     console.log("Starting index")
     initIndex()
-    console.log("Starting settings")
-    initSettings()
     console.log("Starting game loop");
     gameLoop()
+    console.log("Starting settings listenet")
+    initSettingsBtn()
     console.log("Adding items to shop")
     addShopForItems()
     console.log("Starting music")
     playMusic()
+
+    console.log("Starting save listener on electron side")
+    window.electronAPI.onSettingsApply((data) => {
+        userSettings.bgMusic = data.bgMusic;
+        saveData();
+    });
+
+    window.electronAPI.onRunLoadData(() => {
+        loadData();
+    });
+
+    console.log("INIT DONE")
 
 }
 

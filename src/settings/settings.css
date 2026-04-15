@@ -30,7 +30,7 @@ body {
 }
 
 .active {
-  filter: brightness(0.3);
+  border: 2px solid rgba(200, 200, 200, 0.5);
 }
 
 div#settingsHeader {
@@ -69,6 +69,43 @@ main#main section {
   height: 100vh;
   flex-shrink: 0;
   text-align: center;
+}
+main#main section h1 {
+  font-size: xxx-large;
+}
+main#main section button {
+  font-family: "ArcadeClassic", serif;
+  font-size: xx-large;
+  margin: 15px;
+  width: fit-content;
+  height: fit-content;
+}
+main#main section.settings {
+  font-size: x-large;
+}
+main#main section.settings form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+main#main section.settings form input {
+  margin: 5px;
+}
+main#main section.saves {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+}
+main#main section.saves button {
+  font-family: "ArcadeClassic", serif;
+}
+main#main section.credits {
+  font-size: xx-large;
+}
+main#main section.credits li {
+  list-style: none;
 }
 
 /*# sourceMappingURL=settings.css.map */

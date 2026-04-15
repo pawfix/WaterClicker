@@ -79,7 +79,40 @@ ipcMain.handle('window-minimize', e => {
   BrowserWindow.fromWebContents(e.sender).minimize();
 });
 
+
+
 ipcMain.handle('window-maximize', e => {
   const win = BrowserWindow.fromWebContents(e.sender);
   win.isMaximized() ? win.unmaximize() : win.maximize();
+});
+
+ipcMain.on("settings-save", (_, settingsData) => {
+  if (mainWindow) {
+    mainWindow.webContents.send("apply-settings-and-save", settingsData);
+  }
+});
+
+ipcMain.handle("settings-load", async () => {
+  if (!mainWindow) return null;
+
+  return new Promise((resolve) => {
+    mainWindow.webContents.once("settings-response", (_, data) => {
+      resolve(data);
+    });
+
+    mainWindow.webContents.send("request-settings");
+  });
+});
+
+ipcMain.on("settings-response", (_, data) => {
+  // this is needed to complete the round-trip
+  if (mainWindow) {
+    mainWindow.webContents.emit("settings-response", null, data);
+  }
+});
+
+ipcMain.on("load-main-data", () => {
+  if (mainWindow) {
+    mainWindow.webContents.send("run-load-data");
+  }
 });

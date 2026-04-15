@@ -15,21 +15,42 @@
     <div class="headerOpen"><p id="headerBtnPar">\/</p></div>
 </header>
 <div id="settingsHeader">
-    <div class="headBtn" id="settings"><h3>Settings</h3></div>
+    <div class="headBtn active" id="settings"><h3>Settings</h3></div>
     <div class="headBtn" id="saves"><h3>Saves</h3></div>
     <div class="headBtn" id="credits"><h3>Credits</h3></div>
 </div>
 <main id="main">
     <section class="settings">
         <h1>Settings</h1>
+        <form id="settingsForm">
+            <div class="bgMusicContainer formContainer">
+                <input type="checkbox" name="bgMusic" id="bgMusicInput">
+                <label for="bgMusicInput">Toggle background music</label>
+            </div>
+            <button id="settingsSubmit">Apply</button>
+            <p style="color: red">DONT FORGET TO SAVE PROGRESS FOR SETTINGS TO STAY</p>
+        </form>
     </section>
     <section class="saves">
         <h1>Saves</h1>
+        <button id="settingsSave">Save progress</button>
+        <button id="settingsLoad">Load progress</button>
     </section>
     <section class="credits">
         <h1>Credits</h1>
+        <ol id="creditsList">
+            <li>Code: PawFix4</li>
+
+            <li>Design: PawFix4 & Misiek1245</li>
+
+            <li>Ideas: PawFix4 & Misiek1245</li>
+
+            <li>Music: Misiek1245</li>
+        </ol>
     </section>
-    <script src="settings.js" type="module"></script>
+    <script src="settings.js" type="module">
+    </script>
+    <script src="settingsInit.js"></script>
 </main>
 </body>
 </html>
