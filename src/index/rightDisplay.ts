@@ -18,6 +18,24 @@ export function triggerPop(el: HTMLElement) {
     el.classList.add("pop");
 }
 
+export function makeBubble() {
+    const main : HTMLElement = document.querySelector('.main')
+
+    const bubble : HTMLImageElement = document.createElement("img");
+    bubble.classList.add("bubble")
+    bubble.src = "../assets/buble.svg";
+    bubble.alt = "Bubble"
+    bubble.style.height = "50px";
+    bubble.style.top = String(Math.random() * 100) + "vh";
+    bubble.style.left = String(Math.random() * 100) + "vw";
+
+    main.appendChild(bubble);
+
+    setTimeout(() => {
+        main.removeChild(bubble);
+    }, 500);
+}
+
 function updatePearls() {
     const pearlDisplay = document.querySelector('#pearls') as HTMLParagraphElement;
 

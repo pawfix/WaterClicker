@@ -26,7 +26,7 @@ body {
   overflow: hidden;
   background: linear-gradient(45deg, #0b1f2a, #123a4a, #1f5f6b, #2e8b8b, #3fa7a3);
   background-size: 400% 400%;
-  animation: beachSlide 60s ease infinite;
+  animation: beachSlide 30s ease infinite;
 }
 
 .active {

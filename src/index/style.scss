@@ -12,6 +12,20 @@
   padding: 0;
 }
 
+.bubble {
+  position: absolute;
+  cursor: pointer;
+  pointer-events: none;
+  &:focus {
+    outline: none;
+    background-color: transparent;
+  }
+  &::selection {
+    background-color: transparent;
+  }
+  animation: popAnim .5s ease;
+}
+
 .pop {
   animation: popAnim 0.18s ease;
 }
@@ -19,6 +33,7 @@
 .failToBuy {
   animation: failToBuy 0.18s ease;
 }
+
 
 @keyframes failToBuyBlink {
   0% {
@@ -126,7 +141,6 @@ header {
   align-items: center;
   svg.icon {
     height: 85%;
-    max-width: 90%;
     aspect-ratio: 1/1;
 
     g.clickerRects {
