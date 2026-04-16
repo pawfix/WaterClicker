@@ -1,7 +1,8 @@
-import {userBalance, userStats} from "./data.ts";
-import {userSettings} from "../settings/settings.ts";
-import {multi, power, updateItemPrice, updateShopItemDisplay } from "../index/rightPanelShop.ts";
-import {createPopUp} from "./popup.ts";
+import { userBalance, userStats } from "./data.ts";
+import { userSettings } from "../settings/settings.ts";
+import { multi, power, updateItemPrice, updateShopItemDisplay } from "../index/rightPanelShop.ts";
+import { createPopUp } from "./popup.ts";
+import { achievements } from "./achievement.ts";
 
 interface shopSave {
     power: {
@@ -12,6 +13,11 @@ interface shopSave {
         ownedAmount: number;
         price: number;
     };
+}
+
+interface achievementSave {
+    name: string;
+    progress: boolean;
 }
 
 interface saveJsonAttributes {
@@ -28,6 +34,7 @@ interface saveJsonAttributes {
         bgMusic: boolean;
     },
     shop: shopSave;
+    achievements: achievementSave[];
 }
 
 export function saveData() {
@@ -55,13 +62,21 @@ export function saveData() {
                 ownedAmount: multi.ownedAmount,
                 price: multi.price
             }
-        }
+        },
+        achievements: achievements.map(a => ({
+            name: a.name,
+            progress: a.progress
+        }))
     };
 
     localStorage.setItem("saveJsonAttributes", JSON.stringify(jsonAttributes));
-    createPopUp("Saved progress...", "Saved your progress to local storage. To load go to settings and saves", false)
-}
 
+    createPopUp(
+        "Saved progress...",
+        "Saved your progress to local storage. To load go to settings and saves",
+        false
+    );
+}
 
 export function loadData(): void {
     console.log("Loading data");
@@ -84,16 +99,25 @@ export function loadData(): void {
 
         userSettings.bgMusic = parsed.settings.bgMusic;
 
-
         power.ownedAmount = parsed.shop.power.ownedAmount;
-        multi.ownedAmount = parsed.shop.multi.ownedAmount;
+        power.price = parsed.shop.power.price;
 
-        // recalc prices AFTER restoring
+        multi.ownedAmount = parsed.shop.multi.ownedAmount;
+        multi.price = parsed.shop.multi.price;
+
         updateItemPrice(power);
         updateItemPrice(multi);
 
-        // refresh UI
         updateShopItemDisplay();
+
+        if (parsed.achievements) {
+            for (const saved of parsed.achievements) {
+                const ach = achievements.find(a => a.name === saved.name);
+                if (ach) {
+                    ach.progress = saved.progress;
+                }
+            }
+        }
 
         console.log("Data loaded successfully", parsed);
     } catch (err) {
@@ -101,11 +125,9 @@ export function loadData(): void {
     }
 }
 
-
-export function autoSave() : void {
+export function autoSave(): void {
     setInterval(() => {
         saveData();
-        console.log("autoSaved")
-    }, 300000)
+        console.log("autoSaved");
+    }, 300000);
 }
-

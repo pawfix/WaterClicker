@@ -4,6 +4,7 @@ import {initIndex} from "../index";
 import {addShopForItems, updateShopItemDisplay} from "../index/rightPanelShop.ts";
 import {playMusic} from "./music.ts";
 import {autoSave, loadData, saveData} from "./save.ts";
+import {checkAchievements} from "./achievement.ts";
 
 
 
@@ -12,6 +13,7 @@ function gameLoop() {
     if (!pauseState) {
         updateRightPanelDisplay()
         updateShopItemDisplay()
+        checkAchievements()
     }
 
     requestAnimationFrame(gameLoop)

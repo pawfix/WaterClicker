@@ -28,6 +28,7 @@
   z-index: 5;
   overflow-x: hidden;
   overflow-y: auto;
+  pointer-events: none;
   scroll-behavior: smooth;
   &::-webkit-scrollbar {
     display: none;
@@ -173,6 +174,7 @@ header {
   justify-content: center;
   align-items: center;
   svg.icon {
+    position: relative;
     height: 85%;
     aspect-ratio: 1/1;
 
