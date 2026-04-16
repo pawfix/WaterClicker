@@ -1,5 +1,5 @@
 export function createPopUp(title: string, content: string, warned:boolean) {
-    const main = document.querySelector('body')
+    const main = document.querySelector('.popupWrap')
 
     const popup:HTMLDivElement = document.createElement("div");
     popup.classList.add("popup");

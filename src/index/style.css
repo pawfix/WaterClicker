@@ -12,17 +12,33 @@
   user-select: none;
 }
 
-.popup {
-  top: 2vh;
+.popupWrap {
   padding: 5px;
-  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
   position: absolute;
-  background-color: green;
   width: 20vw;
-  height: 100px;
-  outline: 5px double purple;
+  height: 20vw;
+  top: 2vh;
   margin-left: 40vw;
   margin-right: 40vw;
+  left: 0;
+  z-index: 5;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.popupWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.popup {
+  padding: 5px;
+  width: 100%;
+  outline: 5px double purple;
+  background-color: green;
 }
 .popup h2 {
   text-align: center;
